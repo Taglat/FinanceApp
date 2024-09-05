@@ -2,4 +2,5 @@
 
 * useOnClickOutside - модалки
 * useDebounce - оптимизация запросов
-* useOnlineStatus
+* useOnlineStatus - navigator
+* useResizeWindow - window
