@@ -4,3 +4,4 @@
 * useDebounce - оптимизация запросов
 * useOnlineStatus - navigator
 * useResizeWindow - window
+* useKeyPress - window
