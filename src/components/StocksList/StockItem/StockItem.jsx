@@ -5,6 +5,7 @@ import Modal from "../../Modal/Modal";
 import { useEffect, useRef, useState } from "react";
 import { useOnClickOutside } from "../../../hooks/useOnClickOutside";
 import { useKeyPress } from "../../../hooks/useKeyPress";
+import DeleteButton from "./DeleteButton/DeleteButton";
 
 const fetchStock = async (symbol) => {
   const price = await stocksApi["getPrice"](symbol);
@@ -55,12 +56,7 @@ const StockItem = ({ symbol, deleteFromFavorites }) => {
       ) : (
         <div>Loading...</div>
       )}
-      <p
-        onClick={() => deleteFromFavorites(symbol)}
-        className={style.deleteButton}
-      >
-        Delete
-      </p>
+      <DeleteButton deleteStock={() => deleteFromFavorites(symbol)} />
       {isModalOpen ? <Modal ref={modalRef} data={data} /> : null}
     </li>
   );
