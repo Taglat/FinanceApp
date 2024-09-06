@@ -1,11 +1,9 @@
 import { useQuery } from "react-query";
 import stocksApi from "../../../api/stocksApi";
-import style from "./style.module.css";
-import Modal from "../../Modal/Modal";
 import { useEffect, useRef, useState } from "react";
 import { useOnClickOutside } from "../../../hooks/useOnClickOutside";
 import { useKeyPress } from "../../../hooks/useKeyPress";
-import DeleteButton from "./DeleteButton/DeleteButton";
+import StockCard from "./StockCard/StockCard";
 
 const fetchStock = async (symbol) => {
   const price = await stocksApi["getPrice"](symbol);
@@ -22,8 +20,6 @@ const StockItem = ({ symbol, deleteFromFavorites }) => {
 
   const isKeyPressed = useKeyPress('p');
 
-  console.log(isKeyPressed);
-
   useEffect(() => {
     if (isKeyPressed) {
       closeModal();
@@ -37,28 +33,18 @@ const StockItem = ({ symbol, deleteFromFavorites }) => {
   useOnClickOutside(modalRef, closeModal);
 
   return (
-    <li className={style.item}>
-      {data ? (
-        <div onClick={() => setIsModalOpen(true)} className={style.info}>
-          {data.logo ? (
-            <img className={style.logo} src={data.logo} alt={data.name} />
-          ) : (
-            <div className={style.logo}></div>
-          )}
-          <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-            <p>{data.name}</p>
-            <p>{data.ticker}</p>
-            <p>
-              {data.price} {data.currency}
-            </p>
-          </div>
-        </div>
-      ) : (
-        <div>Loading...</div>
-      )}
-      <DeleteButton deleteStock={() => deleteFromFavorites(symbol)} />
-      {isModalOpen ? <Modal ref={modalRef} data={data} /> : null}
-    </li>
+    data ? (
+      <StockCard
+        data={data}
+        openModal={() => setIsModalOpen(true)}
+        isModalOpen={isModalOpen}
+        deleteFromFavorites={deleteFromFavorites}
+        symbol={symbol}
+        modalRef={modalRef}
+      />
+    ) : (
+      <div>Loading...</div>
+    )
   );
 };
 
